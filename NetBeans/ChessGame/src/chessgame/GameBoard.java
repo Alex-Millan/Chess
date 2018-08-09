@@ -16,10 +16,20 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * GUI of the chess game.
+ * Creates an 8 x 8 checker board.
+ * Handles User/AI inputs.
+ * Updates board.
+ * @author Alex
+ */
 public class GameBoard{
     private final byte board_dimension = 8;
     private JButton[][] board_square = new JButton[board_dimension][board_dimension];
     
+    /**
+     * A list of all possible chess pieces on the board
+     */
     public enum ChessPiece{
         KING,
         QUEEN,
@@ -86,6 +96,10 @@ public class GameBoard{
 
 	}
         
+
+    /**
+     * Initialize the default chess piece setup 
+     */
         public void initialBoardSetup() {
             
             ChessPiece currentPiece = ChessPiece.PAWN;
