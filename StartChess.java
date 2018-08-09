@@ -16,6 +16,6 @@ public class StartChess{
 	  	*/
 	  	Chessboard board = new Chessboard();
 	  	System.out.println( board);
-	  	System.out.println( "Done");
+	  	//System.out.println( "Done");
   } // end method main
 }
