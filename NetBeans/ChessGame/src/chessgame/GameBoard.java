@@ -87,7 +87,27 @@ public class GameBoard{
 	}
         
         public void initialBoardSetup() {
-            
+            //See if this works (don't forget to comment out the other code):
+            /*
+            ChessPiece[] pieceList = new ChessPiece[](ChessPiece.ROOK, ChessPiece.KNIGHT, ChessPiece.BISHOP);
+            for( int i = 0; i < 3; i++){ 
+                setImage(pieceList[i], Player.ONE, i , 0);
+                setImage(pieceList[i], Player.ONE, 7-i , 0);
+                setImage(pieceList[i], Player.TWO, i , 7);
+                setImage(pieceList[i], Player.TWO, 7-i , 7);
+            }
+
+            setImage(ChessPiece.QUEEN;, Player.ONE, 3 , 0);
+            setImage(ChessPiece.KING;, Player.ONE, 4 , 0);
+            setImage(ChessPiece.QUEEN;, Player.TWO, 3 , 7);
+            setImage(ChessPiece.KING;, Player.TWO, 4 , 7);
+
+            for (int i = 0; i < board_dimension; i++) { //assigns both pawn groups
+                setImage(ChessPiece.PAWN, Player.ONE, i, 1);
+                setImage(ChessPiece.PAWN, Player.TWO, i, 6);
+            }
+
+            */
             ChessPiece currentPiece = ChessPiece.PAWN;
             Player player = Player.ONE;
             for (int i = 0; i < board_dimension; i++) {
