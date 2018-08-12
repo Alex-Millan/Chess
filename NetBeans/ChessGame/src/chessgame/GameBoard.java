@@ -8,6 +8,8 @@ package chessgame;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -21,22 +23,19 @@ import javax.swing.JPanel;
  * Updates board.
  * @author Alex
  */
-public class GameBoard{
+public class GameBoard implements ActionListener{
     private final byte board_dimension = 8;
-    private JButton[][] board_square = new JButton[board_dimension][board_dimension];
-    private JFrame frame = new JFrame("ChessBoard");
+    private MatrixButton[][] board_square = new MatrixButton[board_dimension][board_dimension];
+    
+    
 	public GameBoard() {
-
+                JFrame frame = new JFrame("ChessBoard");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		//set a Matrix of button 8 x 8
-		//Change the color of the chessboard to WHITE and BLACk
-		
 		final byte size = 100; //100 pixcels for a square
 		Dimension square_size = new Dimension(size, size);	
-		//settings of the Jbuttons
 
-		final Color oddColor = new Color(70,130,180);
+		final Color oddColor = new Color(70,130,180); //STEEL BLUE
 		final Color evenColor = Color.WHITE; 
 		
 		
@@ -54,10 +53,11 @@ public class GameBoard{
 			board_panel[i].setSize(size, board_dimension*size);
 			
 			for (int j = 0; j < board_square[0].length; j++) {
-				board_square[i][j] = new JButton();
+				board_square[i][j] = new MatrixButton(i , j);
 				board_square[i][j].setMaximumSize(square_size);
 				board_square[i][j].setPreferredSize(square_size);
 				board_square[i][j].setMinimumSize(square_size);
+				board_square[i][j].addActionListener(this);
 				if((i+j)%2 == 1) {
 					board_square[i][j].setBackground(oddColor);//make button white
 				} else { 
@@ -77,15 +77,45 @@ public class GameBoard{
 	}
         
         public void setImage(ChessPiece piece) {
-            board_square[piece.pieceLocation.getLocationX()][piece.pieceLocation.getLocationY()].setIcon(piece.pieceIcon); 
+            board_square[piece.pieceLocation.getLocationX()][piece.pieceLocation.getLocationY()].setIcon(piece.pieceIcon);
+            
         }
         public void removeImage(Location myLocation){
             board_square[myLocation.getLocationX()][myLocation.getLocationY()].setIcon(null);
         }
         
-        public void updateBoard(){
+        static int btnState = 1;
+        boolean buttonPressed = false;
+        
+        public Location boardUpdate(){
+            final int GRAB_BUTTON = 1;
+            final int PLACE_BUTTON = 2;
+            Location btnLocation = null;
+            //if no button was press return null
+            if(buttonPressed != true) {
+                return btnLocation;
+            }
+            switch(btnState) {
+                case GRAB_BUTTON:
+                    //check location match;
+                    break;
+                case PLACE_BUTTON:
+                    //break
+                    break;
+                default:
+                        System.out.println("Out of valid btnState");
+            }
             
+            buttonPressed = false; // make sure new button is pressed first
+            return btnLocation;
         }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        buttonPressed = true;
+        ((MatrixButton)e.getSource()).getBtnLocation();
+    }
+        
         
 }
 

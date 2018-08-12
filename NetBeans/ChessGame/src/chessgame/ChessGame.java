@@ -63,8 +63,8 @@ public class ChessGame {
                 i = 0;
                 Location newLocation = new Location(3, 0);
                 if(p1ChessPieces[0].isValidMove(newLocation)){
-                    myGameBoard.removeImage(p1ChessPieces[0].pieceLocation);
-                    p1ChessPieces[0].move(newLocation);
+                    //myGameBoard.removeImage(p1ChessPieces[0].pieceLocation);
+                    //p1ChessPieces[0].move(newLocation);
                 }
             }
         }
