@@ -66,7 +66,7 @@ int grabIndex = -1;
         Location currLocation = new Location();
         
         boolean transition = false;
-        chessState newState = null;
+        chessState newState = chessState.PICKUP_PIECE;
         for (int i = 0; i < p1ChessPieces.length; i++) {
             myGameBoard.setImage(p1ChessPieces[i]);
         }
@@ -90,12 +90,27 @@ int grabIndex = -1;
                         //TODO: make sure the move was valid before placing piece
                         if(currLocation != myGameBoard.getLocation()) {
                             if(p1ChessPieces[grabIndex].isValidMove(myGameBoard.getLocation())) {
+                                
                                 currLocation = myGameBoard.getLocation(); // out of board
-                                myGameBoard.removeImage(p1ChessPieces[grabIndex].getPieceLocation());
-                                p1ChessPieces[grabIndex].setLocation(currLocation);
-                                myGameBoard.setImage(p1ChessPieces[grabIndex]);
-                                transition = true;
-                                newState = chessState.PICKUP_PIECE;
+                                boolean clearPath = false;
+                                int counter = 0;
+                                for (int i = 0; i < p1ChessPieces.length; i++) {
+                                    if(i != grabIndex) {
+                                        if(p1ChessPieces[grabIndex].isPathClear(currLocation, p1ChessPieces[i].getPieceLocation())){
+                                            counter++;
+                                        }
+                                    }
+                                }
+                                if(counter == (p1ChessPieces.length - 1)) {
+                                    clearPath = true;
+                                }
+                                if(clearPath) {
+                                    myGameBoard.removeImage(p1ChessPieces[grabIndex].getPieceLocation());
+                                    p1ChessPieces[grabIndex].setLocation(currLocation);
+                                    myGameBoard.setImage(p1ChessPieces[grabIndex]);
+                                    transition = true;
+                                    newState = chessState.PICKUP_PIECE;
+                                }
                             }
                         }
                     }

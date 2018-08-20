@@ -56,6 +56,30 @@ public class ChessPiece {
     public boolean isValidMove(Location nextLocation){
         return true;
     }
+
+    public boolean isPathClear(Location nextLocation, Location obstacle){
+        
+        return true;
+    }
+    
+    public int maxValue(int a, int b) {
+        if(a > b){
+            return a;
+        } else {
+            return b;
+        }
+    }
+    
+    
+    public int minValue(int a, int b) {
+        if(a > b){
+            return b;
+        } else {
+            return a;
+        }
+    }
+    
+    
     
     public void setImage(String filename){
         pieceIcon = new ImageIcon(filename);
