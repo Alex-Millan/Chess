@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 public class GameBoard implements ActionListener{
     private final byte board_dimension = 8;
     private MatrixButton[][] board_square = new MatrixButton[board_dimension][board_dimension];
-    
+    private Location boardLocation = new Location(-1, -1);
     
 	public GameBoard() {
                 JFrame frame = new JFrame("ChessBoard");
@@ -87,33 +87,24 @@ public class GameBoard implements ActionListener{
         static int btnState = 1;
         boolean buttonPressed = false;
         
-        public Location boardUpdate(){
-            final int GRAB_BUTTON = 1;
-            final int PLACE_BUTTON = 2;
-            Location btnLocation = null;
-            //if no button was press return null
-            if(buttonPressed != true) {
-                return btnLocation;
-            }
-            switch(btnState) {
-                case GRAB_BUTTON:
-                    //check location match;
-                    break;
-                case PLACE_BUTTON:
-                    //break
-                    break;
-                default:
-                        System.out.println("Out of valid btnState");
-            }
-            
-            buttonPressed = false; // make sure new button is pressed first
-            return btnLocation;
+        
+        public Location getLocation(){
+            return boardLocation;
         }
+        
+        public boolean isButtonPressed() {
+            if(buttonPressed) {
+                buttonPressed = false; // turn off the button press
+                return true; // button was initially pressed
+            }
+            return false;
+        }
+        
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        boardLocation = ((MatrixButton)e.getSource()).getBtnLocation();
         buttonPressed = true;
-        ((MatrixButton)e.getSource()).getBtnLocation();
     }
         
         

@@ -15,6 +15,7 @@ public class Rook extends ChessPiece{
     /*
     * Determines whether a rook move was valid or not. 
     */
+    @Override
     public boolean isValidMove(Location nextLocation){
         //Valid Horizontal move
         if(nextLocation.getLocationX() == pieceLocation.getLocationX()) {
@@ -36,11 +37,6 @@ public class Rook extends ChessPiece{
         //invalid move
         return false;
     }
-    
-    public void move(Location nextLocation) {
-        if(isValidMove(nextLocation)) {
-            this.setLocation(nextLocation);
-        }
-    }
+
    
 }

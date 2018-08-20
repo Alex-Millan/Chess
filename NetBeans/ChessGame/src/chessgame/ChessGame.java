@@ -11,6 +11,11 @@ package chessgame;
  */
 public class ChessGame {
 
+    
+    enum chessState {
+        PICKUP_PIECE,
+        PLACE_PIECE;
+    }
     /**
      * @param args the command line arguments
      */
@@ -42,7 +47,7 @@ public class ChessGame {
         p1ChessPieces[6] = new Knight();
         p1ChessPieces[7] = new Rook();
         for (int i = 0; i < 8; i++) {
-            p1ChessPieces[i+8] = new Pawn();
+            p1ChessPieces[i+8] = new Pawn(true); //This piece does start at the top
         }
         
         for (int i = 0; i < 8; i++) {
@@ -55,18 +60,55 @@ public class ChessGame {
             p1ChessPieces[i+8].setImage(p1PawnURL);
             p1ChessPieces[i+8].setLocation(new Location(i,1));
         }
+
+int grabIndex = -1;
+        chessState gameState = chessState.PICKUP_PIECE;
+        Location currLocation = new Location();
         
-        int i = 0;
-        while (true) {            
-            myGameBoard.setImage(p1ChessPieces[i++]);
-            if(i == p1ChessPieces.length) {
-                i = 0;
-                Location newLocation = new Location(3, 0);
-                if(p1ChessPieces[0].isValidMove(newLocation)){
-                    //myGameBoard.removeImage(p1ChessPieces[0].pieceLocation);
-                    //p1ChessPieces[0].move(newLocation);
-                }
+        boolean transition = false;
+        chessState newState = null;
+        for (int i = 0; i < p1ChessPieces.length; i++) {
+            myGameBoard.setImage(p1ChessPieces[i]);
+        }
+        while (true) {
+            
+            switch(gameState){
+                case PICKUP_PIECE:
+                    if(myGameBoard.isButtonPressed()) {
+                        for (int j = 0; j < p1ChessPieces.length; j++) {
+                            currLocation = myGameBoard.getLocation();
+                            if(currLocation.isLocationEqual(p1ChessPieces[j].getPieceLocation())){
+                                grabIndex = j;
+                                transition = true;
+                                newState = chessState.PLACE_PIECE;
+                            }
+                        }
+                    }
+                    break;
+                case PLACE_PIECE:
+                    if(myGameBoard.isButtonPressed()) {
+                        //TODO: make sure the move was valid before placing piece
+                        if(currLocation != myGameBoard.getLocation()) {
+                            if(p1ChessPieces[grabIndex].isValidMove(myGameBoard.getLocation())) {
+                                currLocation = myGameBoard.getLocation(); // out of board
+                                myGameBoard.removeImage(p1ChessPieces[grabIndex].getPieceLocation());
+                                p1ChessPieces[grabIndex].setLocation(currLocation);
+                                myGameBoard.setImage(p1ChessPieces[grabIndex]);
+                                transition = true;
+                                newState = chessState.PICKUP_PIECE;
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    System.err.println("Out of state! Chessgame.java main");
             }
+            
+            if(transition == true) {
+                transition = false;
+                gameState = newState;
+            }
+            
         }
         
         

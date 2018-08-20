@@ -48,7 +48,9 @@ public class ChessPiece {
     }
     
     public void move(Location nextLocation){
-        
+        if(isValidMove(nextLocation)) {
+            this.setLocation(nextLocation);
+        } 
     }
     
     public boolean isValidMove(Location nextLocation){

@@ -5,11 +5,12 @@
         <group>
             <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/Rook.java</file>
             <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/ChessPiece.java</file>
-            <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/ChessGame.java</file>
             <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/Bishop.java</file>
+            <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/ChessGame.java</file>
+            <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/Location.java</file>
+            <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/MatrixButton.java</file>
             <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/Pawn.java</file>
             <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/GameBoard.java</file>
-            <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/Knight.java</file>
             <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/Queen.java</file>
             <file>file:/C:/Users/Alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/chessgame/King.java</file>
         </group>

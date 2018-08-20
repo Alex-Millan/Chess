@@ -23,9 +23,9 @@ public class Location {
     }
     
     
-    public void setLocation(int x, int y){
-        locationX = x;
-        locationY = y;
+    public void setLocation(Location updateLocation){
+        locationX = updateLocation.locationX;
+        locationY = updateLocation.locationY;
     }
     
     public int getLocationX(){
@@ -33,6 +33,15 @@ public class Location {
     }
     public int getLocationY(){
         return this.locationY;
+    }
+    
+    public boolean isLocationEqual(Location b) {
+        if(this.locationX == b.locationX) {
+            if(this.locationY == b.locationY) {
+                return true;
+            }
+        }
+        return false;
     }
     
     

@@ -10,5 +10,23 @@ package chessgame;
  * @author Alex
  */
 public class Pawn extends ChessPiece {
-    
+    private boolean isTopPlayer = false;
+    public Pawn(boolean playerPostion) {
+        isTopPlayer = playerPostion;
+    }
+    @Override
+    public boolean isValidMove(Location nextLocation) {
+        if(nextLocation.getLocationX() == pieceLocation.getLocationX()) {
+            if(isTopPlayer) {
+                if(nextLocation.getLocationY() - pieceLocation.getLocationY() == 1) {
+                    return true;
+                }
+            } else {
+                if(nextLocation.getLocationY() - pieceLocation.getLocationY() == -1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
