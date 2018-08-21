@@ -89,10 +89,10 @@ int grabIndex = -1;
                     if(myGameBoard.isButtonPressed()) {
                         //TODO: make sure the move was valid before placing piece
                         if(currLocation != myGameBoard.getLocation()) {
+                            boolean clearPath = false;
                             if(p1ChessPieces[grabIndex].isValidMove(myGameBoard.getLocation())) {
                                 
                                 currLocation = myGameBoard.getLocation(); // out of board
-                                boolean clearPath = false;
                                 int counter = 0;
                                 for (int i = 0; i < p1ChessPieces.length; i++) {
                                     if(i != grabIndex) {
@@ -111,6 +111,16 @@ int grabIndex = -1;
                                     transition = true;
                                     newState = chessState.PICKUP_PIECE;
                                 }
+                            }
+                            if(clearPath == false) {
+                                for (int j = 0; j < p1ChessPieces.length; j++) {
+                                    currLocation = myGameBoard.getLocation();
+                                    if(currLocation.isLocationEqual(p1ChessPieces[j].getPieceLocation())){
+                                        grabIndex = j;
+                                        transition = true;
+                                        newState = chessState.PLACE_PIECE;
+                                    }
+                                }     
                             }
                         }
                     }

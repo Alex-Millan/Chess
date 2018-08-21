@@ -58,7 +58,14 @@ public class ChessPiece {
     }
 
     public boolean isPathClear(Location nextLocation, Location obstacle){
+        int locX = nextLocation.getLocationX();
+        int locY = nextLocation.getLocationY();
+        int obsX = obstacle.getLocationX();
+        int obsY = obstacle.getLocationY();
         
+        if(locX == obsX && locY == obsY) {
+            return false;
+        }
         return true;
     }
     
