@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -77,9 +79,10 @@ public class GameBoard implements ActionListener{
 	}
         
         public void setImage(ChessPiece piece) {
-            board_square[piece.pieceLocation.getLocationX()][piece.pieceLocation.getLocationY()].setIcon(piece.pieceIcon);
-            
+            board_square[piece.pieceLocation.getLocationX()][piece.pieceLocation.getLocationY()].setIcon(piece.pieceIcon);    
         }
+        
+        
         public void removeImage(Location myLocation){
             board_square[myLocation.getLocationX()][myLocation.getLocationY()].setIcon(null);
         }

@@ -103,42 +103,50 @@ int grabIndex = -1;
                                     clearPath = true;
                                 }
                                 if(clearPath) {
-                                    if(p1ChessPieces[grabIndex].specialMoveCastling(myGameBoard.getLocation(), p1ChessPieces)) {
-                                        if(myGameBoard.getLocation().getLocationX() == 6) {
-                                            for (int i = 0; i < p1ChessPieces.length; i++) {
-                                                if(p1ChessPieces[i].getPieceLocation().getLocationX() == 7 &&
-                                                        p1ChessPieces[i].getPieceLocation().getLocationY() == 0) {
-                                                    Location temp = new Location(5, 0);
-                                                    myGameBoard.removeImage(p1ChessPieces[i].getPieceLocation());
-                                                    p1ChessPieces[i].setLocation(temp);
-                                                    myGameBoard.setImage(p1ChessPieces[i]);
+                                    //This only happens when a king is selected and moves to location 6,0 or 2,0 on the first move
+                                    if(p1ChessPieces[grabIndex].specialMoveCastling(currLocation, p1ChessPieces)) {
+                                       if(castlePathClear(currLocation, p1ChessPieces)) {
+                                        //check if the path is clear 
+                                            if(myGameBoard.getLocation().getLocationX() == 6) {
+                                                for (int i = 0; i < p1ChessPieces.length; i++) {
+                                                    if(p1ChessPieces[i].getPieceLocation().getLocationX() == 7 &&
+                                                            p1ChessPieces[i].getPieceLocation().getLocationY() == 0) {
+                                                        Location temp = new Location(5, 0);
+                                                        myGameBoard.removeImage(p1ChessPieces[i].getPieceLocation());
+                                                        p1ChessPieces[i].setLocation(temp);
+                                                        myGameBoard.setImage(p1ChessPieces[i]);
+                                                    }
                                                 }
-
-                                            }
-                                        } else if(myGameBoard.getLocation().getLocationX() == 2) {
-                                            for (int i = 0; i < p1ChessPieces.length; i++) {
-                                                if(p1ChessPieces[i].getPieceLocation().getLocationX() == 0 &&
-                                                        p1ChessPieces[i].getPieceLocation().getLocationY() == 0) {
-                                                    Location temp = new Location(3, 0);
-                                                    myGameBoard.removeImage(p1ChessPieces[i].getPieceLocation());
-                                                    p1ChessPieces[i].setLocation(temp);
-                                                    myGameBoard.setImage(p1ChessPieces[i]);
+                                            } else if(myGameBoard.getLocation().getLocationX() == 2) {
+                                                for (int i = 0; i < p1ChessPieces.length; i++) {
+                                                    if(p1ChessPieces[i].getPieceLocation().getLocationX() == 0 &&
+                                                            p1ChessPieces[i].getPieceLocation().getLocationY() == 0) {
+                                                        Location temp = new Location(3, 0);
+                                                        myGameBoard.removeImage(p1ChessPieces[i].getPieceLocation());
+                                                        p1ChessPieces[i].setLocation(temp);
+                                                        myGameBoard.setImage(p1ChessPieces[i]);
+                                                    }
                                                 }
-
                                             }
-                                            
-                                        }
+                                            myGameBoard.removeImage(p1ChessPieces[grabIndex].getPieceLocation());
+                                            p1ChessPieces[grabIndex].setLocation(currLocation);
+                                            myGameBoard.setImage(p1ChessPieces[grabIndex]);
+                                            transition = true;
+                                            newState = chessState.PICKUP_PIECE;
+                                        }   
+                                    } else {
+                                        myGameBoard.removeImage(p1ChessPieces[grabIndex].getPieceLocation());
+                                        p1ChessPieces[grabIndex].setLocation(currLocation);
+                                        myGameBoard.setImage(p1ChessPieces[grabIndex]);
+                                        transition = true;
+                                        newState = chessState.PICKUP_PIECE;
                                         
                                     }
-                                    myGameBoard.removeImage(p1ChessPieces[grabIndex].getPieceLocation());
-                                    p1ChessPieces[grabIndex].setLocation(currLocation);
-                                    myGameBoard.setImage(p1ChessPieces[grabIndex]);
-                                    transition = true;
-                                    newState = chessState.PICKUP_PIECE;
-                                }
+                                } 
+                                   
                             }
-                        }
-                                int temp = searchLocation(p1ChessPieces, myGameBoard.getLocation());
+                        } 
+                               int temp = searchLocation(p1ChessPieces, myGameBoard.getLocation());
                                 if(temp != -1) {
                                     grabIndex = temp;
                                     transition = true;
@@ -158,6 +166,30 @@ int grabIndex = -1;
         }
     }
     
+    
+    public static boolean castlePathClear(Location castleMove, ChessPiece[] myChess) {
+        boolean isPathClear = true;
+        if(castleMove.getLocationX() < 4) {
+            for (int i = 0; i < myChess.length; i++) {
+                Location pieceLocation = myChess[i].getPieceLocation();
+                if(pieceLocation.getLocationY() ==  castleMove.getLocationY()) {
+                    if(0 < pieceLocation.getLocationX() && (castleMove.getLocationX() + 1) >= pieceLocation.getLocationX()){
+                        isPathClear = false;
+                    } 
+                }
+            }   
+        } else {
+            for (int i = 0; i < myChess.length; i++) {
+                Location pieceLocation = myChess[i].getPieceLocation();
+                if(pieceLocation.getLocationY() ==  castleMove.getLocationY()) {
+                    if(7 > pieceLocation.getLocationX() && (castleMove.getLocationX() - 1) <= pieceLocation.getLocationX()){
+                        isPathClear = false;
+                    } 
+                }
+            }               
+        }
+        return isPathClear;
+    }
     //returns 
     public static int searchLocation(ChessPiece[] myPiece, Location grabLocation) {
         int matchIndex = -1;
