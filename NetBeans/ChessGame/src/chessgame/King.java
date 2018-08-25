@@ -24,4 +24,42 @@ public class King extends ChessPiece{
         return false; 
     }
     
+    
+    @Override
+    public boolean specialMoveCastling(Location next, ChessPiece[] myPiece) {
+        //Location specialLocation
+        
+        Location[] specialPoints = new Location[2];
+        specialPoints[0] = new Location(0,2);
+        specialPoints[1] = new Location(0,6);
+        
+        
+        if(!this.isFirstMove) {
+            return false; // cannot castle if it isn't the kings first move
+        }
+        
+        for (int i = 0; i < myPiece.length; i++) {
+            if(myPiece[i].isRook()){
+                if(myPiece[i].isFirstMove == false) {
+                    return false; // must be rooks first move in order to pass.
+                } else {
+                    if(specialPoints[0].isLocationEqual(next)) {
+                        if(myPiece[i].getPieceLocation().getLocationX() == 0 &&
+                            myPiece[i].getPieceLocation().getLocationY() == 0) {
+                            return true;
+                        }
+                    }
+                    else if(specialPoints[1].isLocationEqual(next)) {
+                        if(myPiece[i].getPieceLocation().getLocationX() == 7 &&
+                            myPiece[i].getPieceLocation().getLocationY() == 0) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return true;
+    }
+    
 }

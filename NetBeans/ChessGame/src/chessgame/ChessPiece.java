@@ -15,6 +15,8 @@ public class ChessPiece {
     int playerNumber = -1;
     Location  pieceLocation;
     ImageIcon pieceIcon;
+    protected boolean isFirstMove = true;
+    private boolean isSetup = true;
     //boolean isHuman = true;
     
     public ChessPiece() {
@@ -45,6 +47,11 @@ public class ChessPiece {
     }
     public void setLocation(Location newLocation) {
         pieceLocation = newLocation;
+        if(isSetup) {
+            isSetup = false;
+        }else {
+            isFirstMove = false;// next location will be the first move.
+        }
     }
     
     public void move(Location nextLocation){
@@ -66,6 +73,8 @@ public class ChessPiece {
         if(locX == obsX && locY == obsY) {
             return false;
         }
+        
+        //isFirstMove = false; // first move is successful at this point
         return true;
     }
     
@@ -86,6 +95,10 @@ public class ChessPiece {
         }
     }
     
+    public boolean specialMoveCastling(Location next, ChessPiece[] myPiece) {
+        return false;
+    }
+    
     
     
     public void setImage(String filename){
@@ -102,6 +115,10 @@ public class ChessPiece {
     
     public Location getPieceLocation(){
         return pieceLocation;
+    }
+    
+    protected boolean isRook() {
+        return false;
     }
     
 }

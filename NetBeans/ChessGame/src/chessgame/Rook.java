@@ -24,15 +24,13 @@ public class Rook extends ChessPiece{
             if(nextLocation.getLocationY() == pieceLocation.getLocationY()) {
                 return false; // moving to same place is not allowed
             } else {
-                //TODO: check if another chess piece is blocking a path
                 return true;
             }
         } else if(nextLocation.getLocationY() == pieceLocation.getLocationY()) {
             if(nextLocation.getLocationX() == pieceLocation.getLocationX()) {
                 return false;
             } else {
-                //TODO check if another chess piece is blocking a path
-                return true;
+         return true;
             }
         }
         //invalid move
@@ -66,8 +64,13 @@ public class Rook extends ChessPiece{
             } 
         }
         
-
+        //isFirstMove = false; // successful first move was made at this point
         return true; // past all obstacle test
+    } 
+    
+    @Override
+    protected boolean isRook() {
+        return true;
     }
    
 }

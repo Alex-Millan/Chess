@@ -11,7 +11,6 @@ package chessgame;
  */
 public class Location {
     private int locationX, locationY;
-    
     public Location(){
         locationX = -1;
         locationY = -1;
@@ -26,6 +25,7 @@ public class Location {
     public void setLocation(Location updateLocation){
         locationX = updateLocation.locationX;
         locationY = updateLocation.locationY;
+        
     }
     
     public int getLocationX(){
