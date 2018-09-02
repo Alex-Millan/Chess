@@ -40,9 +40,7 @@ public class King extends ChessPiece{
         
         for (int i = 0; i < myPiece.length; i++) {
             if(myPiece[i].isRook()){
-                if(myPiece[i].isFirstMove == false) {
-                    return false; // must be rooks first move in order to pass.
-                } else {
+                if(myPiece[i].isFirstMove) {
                     if(specialPoints[0].isLocationEqual(next)) {
                         if(myPiece[i].getPieceLocation().getLocationX() == 0 &&
                             myPiece[i].getPieceLocation().getLocationY() == 0) {
@@ -55,6 +53,7 @@ public class King extends ChessPiece{
                             return true;
                         }
                     }
+                   
                 }
             }
         }
