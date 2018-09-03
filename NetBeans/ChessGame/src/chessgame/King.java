@@ -10,6 +10,8 @@ package chessgame;
  * @author Alex
  */
 public class King extends ChessPiece{
+    
+
     @Override 
     public boolean isValidMove(Location nextLocation) {
         int moveX = nextLocation.getLocationX() - pieceLocation.getLocationX();

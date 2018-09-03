@@ -12,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,15 +54,19 @@ public class GameBoard implements ActionListener{
 			
 			for (int j = 0; j < board_square[0].length; j++) {
 				board_square[i][j] = new MatrixButton(i , j);
-				board_square[i][j].setMaximumSize(square_size);
+				
+                                board_square[i][j].setMaximumSize(square_size);
 				board_square[i][j].setPreferredSize(square_size);
 				board_square[i][j].setMinimumSize(square_size);
+				
 				board_square[i][j].addActionListener(this);
 				if((i+j)%2 == 1) {
 					board_square[i][j].setBackground(oddColor);//make button white
 				} else { 
 					board_square[i][j].setBackground(evenColor);//make button black					
 				}
+                                board_square[i][j].setOpaque(true);         //required for mac
+                                board_square[i][j].setBorderPainted(false); //Required for mac
 				board_panel[i].add(board_square[i][j]);
 			}
 			grid_panel.add(board_panel[i]);
@@ -74,7 +76,7 @@ public class GameBoard implements ActionListener{
 		frame.add(grid_panel);
 		frame.setVisible(true);
                 
-		
+		System.out.println("GameBoard Initialized:");
 
 	}
         
@@ -87,8 +89,7 @@ public class GameBoard implements ActionListener{
             board_square[myLocation.getLocationX()][myLocation.getLocationY()].setIcon(null);
         }
         
-        static int btnState = 1;
-        boolean buttonPressed = false;
+        static volatile boolean buttonPressed = false;
         
         
         public Location getLocation(){
@@ -100,6 +101,7 @@ public class GameBoard implements ActionListener{
                 buttonPressed = false; // turn off the button press
                 return true; // button was initially pressed
             }
+            
             return false;
         }
         

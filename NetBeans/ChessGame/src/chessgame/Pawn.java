@@ -10,6 +10,7 @@ package chessgame;
  * @author Alex
  */
 public class Pawn extends ChessPiece {
+    
     private boolean isTopPlayer = false;
     public Pawn(boolean playerPostion) {
         isTopPlayer = playerPostion;
