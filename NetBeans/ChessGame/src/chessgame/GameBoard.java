@@ -74,6 +74,7 @@ public class GameBoard implements ActionListener{
 		
 		frame.setSize(1000, 1000);
 		frame.add(grid_panel);
+                frame.setLocation(1960, 0);
 		frame.setVisible(true);
                 
 		System.out.println("GameBoard Initialized:");
