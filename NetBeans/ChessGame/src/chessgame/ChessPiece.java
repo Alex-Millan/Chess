@@ -5,6 +5,7 @@
  */
 package chessgame;
 
+import java.net.URL;
 import javax.swing.ImageIcon;
 
 /**
@@ -31,9 +32,10 @@ public class ChessPiece {
 //        
 //    }
     
-    public ChessPiece(int player, String URL) {
+    public ChessPiece(int player, URL imgURL) {
         playerNumber = player;
-        pieceIcon = new ImageIcon(URL);
+        pieceIcon = new ImageIcon(imgURL);
+        
     }
     
      public ChessPiece(int player, String URL, Location location) {
@@ -65,16 +67,7 @@ public class ChessPiece {
     }
 
     public boolean isPathClear(Location nextLocation, Location obstacle){
-        int locX = nextLocation.getLocationX();
-        int locY = nextLocation.getLocationY();
-        int obsX = obstacle.getLocationX();
-        int obsY = obstacle.getLocationY();
-        
-        if(locX == obsX && locY == obsY) {
-            return false;
-        }
-        
-        //isFirstMove = false; // first move is successful at this point
+
         return true;
     }
     
@@ -101,12 +94,13 @@ public class ChessPiece {
     
     
     
-    public void setImage(String filename){
-        pieceIcon = new ImageIcon(filename);
+    public void setImage(URL imgURL){
+        pieceIcon = new ImageIcon(imgURL);
     }
     
     public void capturePiece(){
         //Remove enemy piece from the game
+        
     }
     
     public void removePiece(){

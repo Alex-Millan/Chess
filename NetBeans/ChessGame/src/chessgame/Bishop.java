@@ -33,11 +33,11 @@ public class Bishop extends ChessPiece{
         minLoc = minValue(nextLocation.getLocationX(), pieceLocation.getLocationX());
         
         obsLoc = obstacle.getLocationX();
-        if(maxLoc >= obsLoc && minLoc <= obsLoc) {       
+        if(maxLoc > obsLoc && minLoc < obsLoc) {       
             maxLoc = maxValue(nextLocation.getLocationY(), pieceLocation.getLocationY());
             minLoc = minValue(nextLocation.getLocationY(), pieceLocation.getLocationY());
             obsLoc = obstacle.getLocationY();
-            if(maxLoc >= obsLoc && minLoc <= obsLoc) {
+            if(maxLoc > obsLoc && minLoc < obsLoc) {
                 int run = obstacle.getLocationX() - pieceLocation.getLocationX();
                 int rise = obstacle.getLocationY() - pieceLocation.getLocationY();
                 if(run == rise || run == (-1*rise)) {

@@ -45,7 +45,7 @@ public class Rook extends ChessPiece{
         minLoc = minValue(nextLocation.getLocationX(), pieceLocation.getLocationX());
         
         obsLoc = obstacle.getLocationX();
-        if(maxLoc >= obsLoc && minLoc <= obsLoc) {
+        if(maxLoc > obsLoc && minLoc < obsLoc) {
             if(nextLocation.getLocationY() == obstacle.getLocationY()) {
                 return false; // obsloc is between the two path
             }
@@ -58,7 +58,7 @@ public class Rook extends ChessPiece{
         minLoc = minValue(nextLocation.getLocationY(), pieceLocation.getLocationY());
         obsLoc = obstacle.getLocationY();
         
-        if(maxLoc >= obsLoc && minLoc <= obsLoc) {
+        if(maxLoc > obsLoc && minLoc < obsLoc) {
             if(nextLocation.getLocationX() == obstacle.getLocationX()) {
                 return false; // obsloc is between the two path
             } 

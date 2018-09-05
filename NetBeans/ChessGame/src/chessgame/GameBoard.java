@@ -82,7 +82,7 @@ public class GameBoard implements ActionListener{
 	}
         
         public void setImage(ChessPiece piece) {
-            board_square[piece.pieceLocation.getLocationX()][piece.pieceLocation.getLocationY()].setIcon(piece.pieceIcon);    
+            board_square[piece.pieceLocation.getLocationX()][piece.pieceLocation.getLocationY()].setIcon(piece.pieceIcon);
         }
         
         

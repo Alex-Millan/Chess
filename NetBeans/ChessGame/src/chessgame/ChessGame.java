@@ -5,6 +5,8 @@
  */
 package chessgame;
 
+import java.net.URL;
+
 /**
  *
  * @author Alex
@@ -81,28 +83,30 @@ public class ChessGame {
     }
 
     public static void setupImage(ChessPiece[] playerPieces, GameBoard gameBoard, int playerNumber) {
-        String[] ImageURL = new String[9];
+        URL[] ImageURL = new URL[9];
         int pawnIndex = 8;
+
+        
         if (playerNumber == 1) {
-            ImageURL[0] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\rook_1.png";
-            ImageURL[1] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\knight_1.png";
-            ImageURL[2] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\bishop_1.png";
-            ImageURL[3] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\queen_1.png";
-            ImageURL[4] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\king_1.png";
-            ImageURL[5] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\bishop_1.png";
-            ImageURL[6] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\knight_1.png";
-            ImageURL[7] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\rook_1.png";
-            ImageURL[pawnIndex] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\pawn_1.png";
+            ImageURL[0] =  ChessGame.class.getResource("/image/rook_1.png");
+            ImageURL[1] =  ChessGame.class.getResource("/image/knight_1.png");
+            ImageURL[2] =  ChessGame.class.getResource("/image/bishop_1.png");
+            ImageURL[3] =  ChessGame.class.getResource("/image/queen_1.png");
+            ImageURL[4] =  ChessGame.class.getResource("/image/king_1.png");
+            ImageURL[5] =  ChessGame.class.getResource("/image/bishop_1.png");
+            ImageURL[6] =  ChessGame.class.getResource("/image/knight_1.png");
+            ImageURL[7] = ChessGame.class.getResource("/image/rook_1.png");
+            ImageURL[pawnIndex] =  ChessGame.class.getResource("/image/pawn_1.png");
         } else {
-            ImageURL[0] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\rook_2.png";
-            ImageURL[1] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\knight_2.png";
-            ImageURL[2] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\bishop_2.png";
-            ImageURL[3] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\queen_2.png";
-            ImageURL[4] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\king_2.png";
-            ImageURL[5] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\bishop_2.png";
-            ImageURL[6] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\knight_2.png";
-            ImageURL[7] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\rook_2.png";
-            ImageURL[pawnIndex] = "C:\\Users\\Alex\\Documents\\NetBeansProjects\\ChessGame\\src\\image\\pawn_2.png";
+            ImageURL[0] =  ChessGame.class.getResource("/image/rook_2.png");
+            ImageURL[1] =  ChessGame.class.getResource("/image/knight_2.png");
+            ImageURL[2] =  ChessGame.class.getResource("/image/bishop_2.png");
+            ImageURL[3] =  ChessGame.class.getResource("/image/queen_2.png");
+            ImageURL[4] =  ChessGame.class.getResource("/image/king_2.png");
+            ImageURL[5] =  ChessGame.class.getResource("/image/bishop_2.png");
+            ImageURL[6] =  ChessGame.class.getResource("/image/knight_2.png");
+            ImageURL[7] = ChessGame.class.getResource("/image/rook_2.png");
+            ImageURL[pawnIndex] =  ChessGame.class.getResource("/image/pawn_2.png");
         }
 
 //        p1ImageURL[0] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/rook_1.png";
@@ -197,7 +201,7 @@ public class ChessGame {
 
         boolean isPieceMoved = false;
         int grabIndex = -1;
-        Location currLocation = new Location(-1, -1);
+        
 
         while (!isPieceMoved) {
             if (gameBoard.isButtonPressed()) {
@@ -205,9 +209,11 @@ public class ChessGame {
                     grabIndex = searchLocation(AllyPiece, gameBoard.getLocation());
                     continue;
                 }
-
+                Location currLocation = AllyPiece[grabIndex].getPieceLocation();
                 Location nextLocation = gameBoard.getLocation();
+                
                 if (!currLocation.isLocationEqual(nextLocation)) {
+
                     boolean clearPath = false;
                     boolean castling = AllyPiece[grabIndex].specialMoveCastling(nextLocation, AllyPiece);
                     if (AllyPiece[grabIndex].isValidMove(nextLocation) || castling) {
@@ -215,12 +221,16 @@ public class ChessGame {
                         for (int i = 0; i < AllyPiece.length; i++) {
                             if (i != grabIndex) {
                                 if (AllyPiece[grabIndex].isPathClear(nextLocation, AllyPiece[i].getPieceLocation())) {
-                                    counter++;
+                                    if(!nextLocation.isLocationEqual(AllyPiece[i].getPieceLocation())) {
+                                        counter++;                                    
+                                    }
                                 }
+                            } if(AllyPiece[grabIndex].isPathClear(nextLocation, EnemyPiece[i].getPieceLocation())) {
+                                counter++;
                             }
                         }
 
-                        if (counter == (AllyPiece.length - 1)) {
+                        if (counter == (AllyPiece.length - 1 + EnemyPiece.length)) {
                             clearPath = true;
                         }
 
@@ -234,7 +244,8 @@ public class ChessGame {
                                     continue; // path isn't clear, invalid move, try agian
                                 }
                             }
-
+                            
+                            capturePiece(nextLocation, EnemyPiece, gameBoard);
                             gameBoard.removeImage(AllyPiece[grabIndex].getPieceLocation());
                             AllyPiece[grabIndex].setLocation(nextLocation);
                             gameBoard.setImage(AllyPiece[grabIndex]);
@@ -251,6 +262,8 @@ public class ChessGame {
                 }
             }
         }
+        //After move was made see if a piece was captured
+
         System.out.println("Exited movePiece() function");
     }
 
@@ -277,7 +290,16 @@ public class ChessGame {
             }
         }
     }
+    public static void capturePiece(Location captureLocation, ChessPiece[] attackedPiece, GameBoard gameBoard) {
+        Location deadPiece = new Location(-1, -1);
+        for (int i = 0; i < attackedPiece.length; i++) {
+            if(captureLocation.isLocationEqual(attackedPiece[i].getPieceLocation())) {
+                gameBoard.removeImage(attackedPiece[i].getPieceLocation());
+                attackedPiece[i].setLocation(deadPiece);
+            }
 
+        }
+    }
     //returns 
     public static int searchLocation(ChessPiece[] myPiece, Location grabLocation) {
         int matchIndex = -1;
