@@ -23,7 +23,12 @@ public class King extends ChessPiece {
         }
         return false;
     }
-
+    
+    @Override
+    protected boolean isKing() {
+        return true;
+    }
+    
     @Override
     public boolean specialMoveCastling(Location next, ChessPiece[] myPiece) {
         //Location specialLocation

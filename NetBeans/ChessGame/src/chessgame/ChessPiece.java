@@ -115,4 +115,11 @@ public class ChessPiece {
         return false;
     }
     
+    public boolean isSpecialPawnAttack(Location nextLocation, Location obstacle) {
+        return false;
+    }
+    
+    protected boolean isKing() {
+        return false;
+    }
 }

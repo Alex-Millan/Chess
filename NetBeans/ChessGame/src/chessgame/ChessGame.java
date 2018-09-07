@@ -49,23 +49,25 @@ public class ChessGame {
             switch (gameState) {
                 case PLAYER_ONE_TURN:
                     movePiece(player1ChessPieces, player2ChessPieces, myGameBoard);
-//                    if(gameWon()){
-//                        newState = chessState.WINNER;
-//                        transition = true;
-//                    } else {
-                    newState = chessState.PLAYER_TWO_TURN;
-                    transition = true;
-//                    }
+                    if(gameWon(player2ChessPieces)){
+                        System.out.println("Player 1 wins!");
+                        newState = chessState.WINNER;
+                        transition = true;
+                    } else {
+                        newState = chessState.PLAYER_TWO_TURN;
+                        transition = true;
+                    }
                     break;
                 case PLAYER_TWO_TURN:
                     movePiece(player2ChessPieces, player1ChessPieces, myGameBoard);
-//                    if(gameWon()){
-//                        newState = chessState.WINNER;
-//                        transition = true;
-//                    } else {
-                    newState = chessState.PLAYER_ONE_TURN;
-                    transition = true;
-//                    }
+                    if(gameWon(player1ChessPieces)){
+                        System.out.println("Player 2 wins!");
+                        newState = chessState.WINNER;
+                        transition = true;
+                    } else {
+                        newState = chessState.PLAYER_ONE_TURN;
+                        transition = true;
+                    }
                     break;
                 case WINNER:
                     System.out.println("Congrat on winning! Onto the next project!");
@@ -109,15 +111,7 @@ public class ChessGame {
             ImageURL[pawnIndex] =  ChessGame.class.getResource("/image/pawn_2.png");
         }
 
-//        p1ImageURL[0] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/rook_1.png";
-//        p1ImageURL[1] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/knight_1.png";
-//        p1ImageURL[2] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/bishop_1.png";
-//        p1ImageURL[3] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/queen_1.png";
-//        p1ImageURL[4] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/king_1.png";
-//        p1ImageURL[5] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/bishop_1.png";
-//        p1ImageURL[6] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/knight_1.png";
-//        p1ImageURL[7] = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/rook_1.png";
-//        String p1PawnURL = "/Users/alex/Desktop/GitControl/Chess/NetBeans/ChessGame/src/image/pawn_1.png";
+
         for (int i = 0; i < 8; i++) {
             playerPieces[i].setImage(ImageURL[i]);
             playerPieces[i + 8].setImage(ImageURL[pawnIndex]);
@@ -228,11 +222,14 @@ public class ChessGame {
                             } if(AllyPiece[grabIndex].isPathClear(nextLocation, EnemyPiece[i].getPieceLocation())) {
                                 counter++;
                             }
+                            if(AllyPiece[grabIndex].isSpecialPawnAttack(nextLocation, EnemyPiece[i].getPieceLocation())) {
+                                clearPath = true;
+                            }
                         }
 
                         if (counter == (AllyPiece.length - 1 + EnemyPiece.length)) {
                             clearPath = true;
-                        }
+                        } 
 
                         if (clearPath) {
                             //This only happens when a king is selected and moves to location 6,0 or 2,0 on the first move
@@ -300,7 +297,18 @@ public class ChessGame {
 
         }
     }
-    //returns 
+    
+    public static boolean gameWon(ChessPiece[] EnemyPiece) {
+        Location dead_location = new Location(-1, -1);
+        for (ChessPiece piece : EnemyPiece) {
+            if(piece.isKing()) {
+                if(dead_location.isLocationEqual(piece.getPieceLocation())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public static int searchLocation(ChessPiece[] myPiece, Location grabLocation) {
         int matchIndex = -1;
         for (int j = 0; j < myPiece.length; j++) {

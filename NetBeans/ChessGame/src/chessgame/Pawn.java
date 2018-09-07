@@ -31,6 +31,47 @@ public class Pawn extends ChessPiece {
                 if(nextLocation.getLocationY() - pieceLocation.getLocationY() == -1) {
                     return true;
                 }
+                if(isFirstMove) {
+                    if(nextLocation.getLocationY() - pieceLocation.getLocationY() == -2) {
+                        return true;
+                    }
+                }
+            }
+        } else if((nextLocation.getLocationX() + 1) == pieceLocation.getLocationX() || 
+                    (nextLocation.getLocationX() - 1) == pieceLocation.getLocationX()) {
+            if(isTopPlayer) {
+                if(nextLocation.getLocationY() - pieceLocation.getLocationY() == 1) {
+                    return true;
+                }
+            } else {
+                 if(nextLocation.getLocationY() - pieceLocation.getLocationY() == -1) {
+                    return true;
+                }               
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean isSpecialPawnAttack(Location nextLocation, Location obstacle) {
+        int locX = nextLocation.getLocationX();
+        int locY = nextLocation.getLocationY();
+        int obsX = obstacle.getLocationX();
+        int obsY = obstacle.getLocationY();
+        if((locX == pieceLocation.getLocationX() + 1) ||
+                (locX == pieceLocation.getLocationX() - 1) ) {
+
+            if(isTopPlayer) {
+                if(locY == (pieceLocation.getLocationY() + 1)) {
+                    if(locX == obsX && locY == obsY) {
+                        return true;
+                    }
+                }
+            } else {
+                if(locY == (pieceLocation.getLocationY() -  1) && locY != -1 ) {
+                    if(locX == obsX && locY == obsY) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -41,12 +82,18 @@ public class Pawn extends ChessPiece {
         int locY = nextLocation.getLocationY();
         int obsX = obstacle.getLocationX();
         int obsY = obstacle.getLocationY();
-
-        if(locX == obsX && locY == obsY || ((locY-1) == obsY && locX == obsX)) {
+        if(locX != pieceLocation.getLocationX()) {
             return false;
         }
-
-        //isFirstMove = false; // first move is successful at this point
+            if(isTopPlayer) {            
+                if(locX == obsX && locY == obsY) {
+                        return false;
+                    }
+            } else {
+                if(locX == obsX && locY == obsY) {
+                    return false;
+                }
+            }
         return true;
     }
 }
