@@ -18,19 +18,11 @@ public class ChessPiece {
     ImageIcon pieceIcon;
     protected boolean isFirstMove = true;
     private boolean isSetup = true;
-    //boolean isHuman = true;
+    boolean enpassantValid = false;
     
     public ChessPiece() {
         
     }
-    /*
-    * isPlayerHuman is  true when it is a human, false if AI.
-    */
-//    public ChessPiece(boolean isPlayerHuman) {
-//        isHuman = isPlayerHuman;
-//        pieceLocation = new Location();
-//        
-//    }
     
     public ChessPiece(int player, URL imgURL) {
         playerNumber = player;
@@ -54,6 +46,10 @@ public class ChessPiece {
         }else {
             isFirstMove = false;// next location will be the first move.
         }
+    }
+    
+    public void setEnpassantFalse() {
+        enpassantValid = false;
     }
     
     public void move(Location nextLocation){
@@ -117,6 +113,10 @@ public class ChessPiece {
     
     public boolean isSpecialPawnAttack(Location nextLocation, Location obstacle) {
         return false;
+    }
+    
+    public boolean isEnpassantMove(Location nextLocation, ChessPiece enemyPiece) {
+       return false;
     }
     
     protected boolean isKing() {

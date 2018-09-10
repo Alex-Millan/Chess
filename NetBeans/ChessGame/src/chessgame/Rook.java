@@ -5,7 +5,6 @@
  */
 package chessgame;
 
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -17,26 +16,25 @@ public class Rook extends ChessPiece{
     */
     @Override
     public boolean isValidMove(Location nextLocation){
-        //Valid Horizontal move
-        
-        if(nextLocation.getLocationX() == pieceLocation.getLocationX()) {
-            //Make sure you aren't moving a piece in the same spot
-            if(nextLocation.getLocationY() == pieceLocation.getLocationY()) {
-                return false; // moving to same place is not allowed
-            } else {
-                return true;
-            }
-        } else if(nextLocation.getLocationY() == pieceLocation.getLocationY()) {
-            if(nextLocation.getLocationX() == pieceLocation.getLocationX()) {
-                return false;
-            } else {
-         return true;
-            }
+        if(isVerticalMove(nextLocation)) {
+            return true;
+        } else if(isHorizontalMove(nextLocation)) {
+           return true;
         }
-        //invalid move
+
         return false;
     }
+    
+    public boolean isVerticalMove(Location nextLocation){
+        return nextLocation.getLocationX() == pieceLocation.getLocationX();
 
+    }
+
+    public boolean isHorizontalMove(Location nextLocation){
+        return (nextLocation.getLocationY() == pieceLocation.getLocationY());
+
+    }
+    
     @Override
     public boolean isPathClear(Location nextLocation, Location obstacle){
         int maxLoc, minLoc, obsLoc;
@@ -72,5 +70,5 @@ public class Rook extends ChessPiece{
     protected boolean isRook() {
         return true;
     }
-   
 }
+

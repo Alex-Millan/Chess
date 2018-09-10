@@ -13,17 +13,24 @@ public class Bishop extends ChessPiece{
     
      @Override
     public boolean isValidMove(Location nextLocation){
-        //Valid Horizontal move
-       //get the x difference and match the difference in Y to get a slope of 1 or -1
+        //get the x difference and match the difference in Y to get a slope of 1 or -1
        int run = nextLocation.getLocationX() - pieceLocation.getLocationX();
        int rise = nextLocation.getLocationY() - pieceLocation.getLocationY();
+        if(isDiagnolMove(rise, run)) {
+            return true;
+        }
+       return false;
+    }
+    
+    public boolean isDiagnolMove(int rise, int run){
+        //Valid Horizontal move
+
        
        if(run == rise || run == (-1*rise)) {
            return true;
        }
        return false;
     }
-    
     
     @Override
     public boolean isPathClear(Location nextLocation, Location obstacle){
@@ -40,7 +47,7 @@ public class Bishop extends ChessPiece{
             if(maxLoc > obsLoc && minLoc < obsLoc) {
                 int run = obstacle.getLocationX() - pieceLocation.getLocationX();
                 int rise = obstacle.getLocationY() - pieceLocation.getLocationY();
-                if(run == rise || run == (-1*rise)) {
+                if(isDiagnolMove(rise, run)) {
                     return false;
                 }
             }

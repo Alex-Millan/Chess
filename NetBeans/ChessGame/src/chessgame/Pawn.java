@@ -24,6 +24,7 @@ public class Pawn extends ChessPiece {
                 }
                 if(isFirstMove) {
                     if(nextLocation.getLocationY() - pieceLocation.getLocationY() == 2) {
+                        enpassantValid = true;
                         return true;
                     }
                 }
@@ -33,6 +34,7 @@ public class Pawn extends ChessPiece {
                 }
                 if(isFirstMove) {
                     if(nextLocation.getLocationY() - pieceLocation.getLocationY() == -2) {
+                        enpassantValid = true;
                         return true;
                     }
                 }
@@ -76,6 +78,32 @@ public class Pawn extends ChessPiece {
         }
         return false;
     }
+    
+    @Override
+    public boolean isEnpassantMove(Location nextLocation, ChessPiece enemyPiece) {
+       if(isTopPlayer) {
+           if(pieceLocation.getLocationY() == 4) {
+               if(enemyPiece.enpassantValid == true) {
+                   Location temp = new Location(enemyPiece.getPieceLocation().getLocationX(), enemyPiece.getPieceLocation().getLocationY()+1);
+                   if(isSpecialPawnAttack(nextLocation, temp)) {
+                       return true;
+                    }
+                }
+           } 
+       } else{
+            if(pieceLocation.getLocationY() == 3) {
+                if(enemyPiece.enpassantValid == true) {
+                   Location temp = new Location(enemyPiece.getPieceLocation().getLocationX(), enemyPiece.getPieceLocation().getLocationY()-1);
+                   if(isSpecialPawnAttack(nextLocation, temp)) {
+                       return true;
+                    }
+                }                
+            } 
+        }     
+       
+       return false;
+    }
+    
     @Override
     public boolean isPathClear(Location nextLocation, Location obstacle){
         int locX = nextLocation.getLocationX();

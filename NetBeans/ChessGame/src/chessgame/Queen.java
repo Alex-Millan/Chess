@@ -22,22 +22,12 @@ public class Queen extends ChessPiece{
        if(slopeX == slopeY || slopeX == (-1*slopeY)) {
            return true;
        }
+       
        //Rook type move
        if(nextLocation.getLocationX() == pieceLocation.getLocationX()) {
-            //Make sure you aren't moving a piece in the same spot
-            if(nextLocation.getLocationY() == pieceLocation.getLocationY()) {
-                return false; // moving to same place is not allowed
-            } else {
-                //TODO: check if another chess piece is blocking a path
-                return true;
-            }
+            return true;
         } else if(nextLocation.getLocationY() == pieceLocation.getLocationY()) {
-            if(nextLocation.getLocationX() == pieceLocation.getLocationX()) {
-                return false;
-            } else {
-                //TODO check if another chess piece is blocking a path
-                return true;
-            }
+            return true;
         }
        
        

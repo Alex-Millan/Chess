@@ -27,30 +27,22 @@ public class ChessGame {
     public static void main(String[] args) {
         // TODO code application logic here
 
-        //Chess Piece Setup START
-        int playerOne = 1;
-        int playerTwo = 2;
-
         ChessPiece[] player2ChessPieces = new ChessPiece[NUM_OF_CHESS_PIECES];
         ChessPiece[] player1ChessPieces = new ChessPiece[NUM_OF_CHESS_PIECES];
         GameBoard myGameBoard = new GameBoard();
-
-        setupPiece(player1ChessPieces, playerOne);
-        setupImage(player1ChessPieces, myGameBoard, playerOne);
-        setupPiece(player2ChessPieces, playerTwo);
-        setupImage(player2ChessPieces, myGameBoard, playerTwo);
-        //Chess Piece Setup END
+        gameSetup(player1ChessPieces, player2ChessPieces, myGameBoard);
+        
         chessState gameState = chessState.PLAYER_ONE_TURN;
 
         boolean transition = false;
         chessState newState = chessState.PLAYER_ONE_TURN;
-
-        while (true) {
+        boolean gameOver = false;
+        while (!gameOver) {
             switch (gameState) {
                 case PLAYER_ONE_TURN:
                     movePiece(player1ChessPieces, player2ChessPieces, myGameBoard);
                     if(gameWon(player2ChessPieces)){
-                        System.out.println("Player 1 wins!");
+                        System.out.println("White wins!");
                         newState = chessState.WINNER;
                         transition = true;
                     } else {
@@ -61,7 +53,7 @@ public class ChessGame {
                 case PLAYER_TWO_TURN:
                     movePiece(player2ChessPieces, player1ChessPieces, myGameBoard);
                     if(gameWon(player1ChessPieces)){
-                        System.out.println("Player 2 wins!");
+                        System.out.println("Black wins!");
                         newState = chessState.WINNER;
                         transition = true;
                     } else {
@@ -71,6 +63,7 @@ public class ChessGame {
                     break;
                 case WINNER:
                     System.out.println("Congrat on winning! Onto the next project!");
+                    gameOver = true;
                     break;
                 default:
                     System.out.println("Out of state in ChessGame.java ");
@@ -85,6 +78,9 @@ public class ChessGame {
     }
 
     public static void setupImage(ChessPiece[] playerPieces, GameBoard gameBoard, int playerNumber) {
+        if(playerPieces.length != NUM_OF_CHESS_PIECES) {
+            System.err.println("ChessGame.java, setupImage: Expected array size of " + NUM_OF_CHESS_PIECES + " but got" + playerPieces.length);
+        }
         URL[] ImageURL = new URL[9];
         int pawnIndex = 8;
 
@@ -189,6 +185,16 @@ public class ChessGame {
         }
         return isPathClear;
     }
+    
+    public static void gameSetup(ChessPiece[] player1ChessPieces, ChessPiece[] player2ChessPieces, GameBoard myGameBoard) {
+        int playerOne = 1;
+        int playerTwo = 2;
+        
+        setupPiece(player1ChessPieces, playerOne);
+        setupImage(player1ChessPieces, myGameBoard, playerOne);
+        setupPiece(player2ChessPieces, playerTwo);
+        setupImage(player2ChessPieces, myGameBoard, playerTwo);
+    }
 
     public static void movePiece(ChessPiece[] AllyPiece, ChessPiece[] EnemyPiece, GameBoard gameBoard) {
         System.out.println("in ChessGame.java, movePiece function: ");
@@ -225,6 +231,16 @@ public class ChessGame {
                             if(AllyPiece[grabIndex].isSpecialPawnAttack(nextLocation, EnemyPiece[i].getPieceLocation())) {
                                 clearPath = true;
                             }
+                            if(AllyPiece[grabIndex].isEnpassantMove(nextLocation, EnemyPiece[i])){
+                                clearPath = true;
+                                if(nextLocation.getLocationY() > AllyPiece[grabIndex].getPieceLocation().getLocationY()) {
+                                    Location temp = new Location(nextLocation.getLocationX(), nextLocation.getLocationY()-1);
+                                    capturePiece(temp, EnemyPiece, gameBoard);                                
+                                } else {
+                                    Location temp = new Location(nextLocation.getLocationX(), nextLocation.getLocationY()+1);
+                                    capturePiece(temp, EnemyPiece, gameBoard);
+                                } 
+                            }
                         }
 
                         if (counter == (AllyPiece.length - 1 + EnemyPiece.length)) {
@@ -246,7 +262,6 @@ public class ChessGame {
                             gameBoard.removeImage(AllyPiece[grabIndex].getPieceLocation());
                             AllyPiece[grabIndex].setLocation(nextLocation);
                             gameBoard.setImage(AllyPiece[grabIndex]);
-                            currLocation = nextLocation;
                             isPieceMoved = true;
                             continue;
                         }
@@ -259,11 +274,17 @@ public class ChessGame {
                 }
             }
         }
+        
+        setEnpassantFalse(EnemyPiece); 
         //After move was made see if a piece was captured
 
         System.out.println("Exited movePiece() function");
     }
-
+    public static void setEnpassantFalse(ChessPiece[] chessPieces) {
+        for (ChessPiece myChess : chessPieces) {
+            myChess.setEnpassantFalse();
+        }
+    }
     public static void moveCastle(GameBoard gameBoard, ChessPiece[] AllyPiece) {
         if (gameBoard.getLocation().getLocationX() == 6) {
             for (int i = 0; i < AllyPiece.length; i++) {
@@ -274,12 +295,26 @@ public class ChessGame {
                     AllyPiece[i].setLocation(temp);
                     gameBoard.setImage(AllyPiece[i]);
                 }
+                if (AllyPiece[i].getPieceLocation().getLocationX() == 7
+                        && AllyPiece[i].getPieceLocation().getLocationY() == 7) {
+                    Location temp = new Location(5, 7);
+                    gameBoard.removeImage(AllyPiece[i].getPieceLocation());
+                    AllyPiece[i].setLocation(temp);
+                    gameBoard.setImage(AllyPiece[i]);
+                }
             }
         } else if (gameBoard.getLocation().getLocationX() == 2) {
             for (int i = 0; i < AllyPiece.length; i++) {
                 if (AllyPiece[i].getPieceLocation().getLocationX() == 0
                         && AllyPiece[i].getPieceLocation().getLocationY() == 0) {
                     Location temp = new Location(3, 0);
+                    gameBoard.removeImage(AllyPiece[i].getPieceLocation());
+                    AllyPiece[i].setLocation(temp);
+                    gameBoard.setImage(AllyPiece[i]);
+                }
+                if (AllyPiece[i].getPieceLocation().getLocationX() == 0
+                        && AllyPiece[i].getPieceLocation().getLocationY() == 7) {
+                    Location temp = new Location(3, 7);
                     gameBoard.removeImage(AllyPiece[i].getPieceLocation());
                     AllyPiece[i].setLocation(temp);
                     gameBoard.setImage(AllyPiece[i]);
